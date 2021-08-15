@@ -1,0 +1,47 @@
+html, body{
+    width: 100%;
+    height: 100%;
+    // overflow: hidden;
+}
+
+body {
+    --header-height: calc(306px + 35px + 10px);
+    --characters-area-height: 597px;
+    --total-design-height: calc(var(--header-height) + var(--characters-area-height));
+
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+}
+
+.page-wrapper{
+    width: 100%;
+    height: 100%;
+
+    .header{
+        min-height: var(--header-height);
+        background-image: url("../images/pickle-rick.svg");
+        background-repeat: no-repeat;
+        background-position: center;
+        
+        .rick{
+            padding: 35px 24px 0;
+        }
+        
+        .title{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+    }
+
+    .characters-container{
+        height: calc(100% - var(--header-height));
+        background-image: url("../images/characters-area-background.svg");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        background-color: #03B0C8;
+    }
+}
