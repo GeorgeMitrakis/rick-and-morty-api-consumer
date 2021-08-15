@@ -5,10 +5,7 @@ html, body{
 }
 
 body {
-    --header-height: calc(306px + 35px + 10px);
-    --characters-area-height: 597px;
-    --total-design-height: calc(var(--header-height) + var(--characters-area-height));
-
+    --header-height: 35vh;
     font-family: 'Roboto', sans-serif;
     margin: 0;
 }
@@ -17,22 +14,30 @@ body {
     width: 100%;
     height: 100%;
 
-    .header{
-        min-height: var(--header-height);
+    .hero{
+        height: var(--header-height);
         background-image: url("../images/pickle-rick.svg");
         background-repeat: no-repeat;
         background-position: center;
+        background-size: 100% 85%;
         
-        .rick{
-            padding: 35px 24px 0;
+        &-logo{
+            width: 35px;
+            height: 42px;
+            padding: 15px 0 0 15px;
         }
-        
-        .title{
+
+        &-content{
+            height: calc(80%);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
+
+            h1{
+                margin: 0;
+            }
         }
     }
 
