@@ -1,6 +1,7 @@
 import express from "express";
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { ApiConsumer } from './wwwroot/js/apiConsumer.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -11,8 +12,9 @@ const app = express();
 
 app.use(express.static(ROOT));
 
-app.listen(PORT, () => {
-    console.log("Application started and listening on port 3000");
+app.listen(PORT, async () => {
+    console.log("Application started and listening on http://localhost:3000");
+    console.log(await ApiConsumer.fetchAllCharacters())
 });
 
 app.get("/", (req, res) => {
