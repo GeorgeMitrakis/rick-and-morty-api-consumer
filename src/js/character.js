@@ -1,4 +1,4 @@
-export class Character{
+class Character{
 
     constructor({name, status, gender, location, episodes} = {}){
         this._name = name;
@@ -25,3 +25,5 @@ export class Character{
     }
     
 }
+
+module.exports = Character;

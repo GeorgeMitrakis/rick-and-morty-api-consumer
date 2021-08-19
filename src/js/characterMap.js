@@ -1,6 +1,8 @@
-import { Character } from './character.js';
+const Character = require('./character.js');
 
-export const characterMap = (characterEntity) => {
+const characterMap = (characterEntity) => {
     const {name, status, gender, location, episodes} = characterEntity
     return new Character({name, status, gender, location, episodes});
 }
+
+module.exports = characterMap;

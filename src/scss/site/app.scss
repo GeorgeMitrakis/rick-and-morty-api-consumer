@@ -16,7 +16,7 @@ body {
 
     .hero{
         height: var(--header-height);
-        background-image: url("../images/pickle-rick.svg");
+        background-image: url("/images/pickle-rick.svg");
         background-repeat: no-repeat;
         background-position: center;
         background-size: 100% 85%;
@@ -43,7 +43,7 @@ body {
 
     .characters-container{
         height: calc(100% - var(--header-height));
-        background-image: url("../images/characters-area-background.svg");
+        background-image: url("/images/characters-area-background.svg");
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
