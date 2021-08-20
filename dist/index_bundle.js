@@ -26,7 +26,7 @@ eval("\n\n// ref: https://github.com/tc39/proposal-global\nvar getGlobal = funct
   \**********************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("\r\nwindow.onload = async function() {\r\n    const ApiConsumer = __webpack_require__(/*! ./js/apiConsumer */ \"./src/js/apiConsumer.js\");\r\n    console.log(await ApiConsumer.fetchAllCharacters());\r\n}\n\n//# sourceURL=webpack://rick-and-morty-api-consumer/./src/index.js?");
+eval("\r\nwindow.onload = async function() {\r\n    const ApiConsumer = __webpack_require__(/*! ./js/apiConsumer */ \"./src/js/apiConsumer.js\");\r\n\r\n    \r\n    console.log(await ApiConsumer.fetchAllCharacters());\r\n}\n\n//# sourceURL=webpack://rick-and-morty-api-consumer/./src/index.js?");
 
 /***/ }),
 
