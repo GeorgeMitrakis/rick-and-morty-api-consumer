@@ -7,14 +7,22 @@ const CharacterRenderer = (function(){
      */
     function renderPreview(character) {
         const htmlString = (
-            `<div>
-                ${character.name}
+            `<div class="character-card">
+                <img src="${character.avatarUrl}" />
+                <div class="details">
+                    <div class="title">${character.name}</div>
+                    <div class="info">
+                        <span class="status status-unknown"></span>
+                        <span>${character.status} - ${character.species}</span>
+                    </div>
+                </div>                
             </div>`
         );
 
-        const characterElem = document.createElement(htmlString);
+        const characterElem = document.createElement("div");
+        characterElem.innerHTML = htmlString;
 
-        document.querySelector(".grid").append(characterElem);
+        document.querySelector(".grid").append(characterElem.firstChild);
     }
 
     /**

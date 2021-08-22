@@ -53,13 +53,14 @@ body {
         // display: flex;
         // align-items: center;
         // justify-content: center;
-        padding: 16px;
+        // padding: 16px;
 
         .grid{
             display: grid;
             gap: 1rem;
-
             grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+
+            padding: 16px;
         }
     }
 }

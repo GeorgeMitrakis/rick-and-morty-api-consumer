@@ -26,7 +26,7 @@ eval("\n\n// ref: https://github.com/tc39/proposal-global\nvar getGlobal = funct
   \**********************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("\r\nconst ApiConsumer = __webpack_require__(/*! ./js/apiConsumer */ \"./src/js/apiConsumer.js\");\r\nconst CharacterRenderer = __webpack_require__(/*! ./js/characterRenderer */ \"./src/js/characterRenderer.js\");\r\n\r\nwindow.onload = async function() {\r\n\r\n    \r\n    console.log(await ApiConsumer.fetchAllCharacters());\r\n}\n\n//# sourceURL=webpack://rick-and-morty-api-consumer/./src/index.js?");
+eval("\r\nconst ApiConsumer = __webpack_require__(/*! ./js/apiConsumer */ \"./src/js/apiConsumer.js\");\r\nconst CharacterRenderer = __webpack_require__(/*! ./js/characterRenderer */ \"./src/js/characterRenderer.js\");\r\n\r\nwindow.onload = async function() {\r\n    const characters = await ApiConsumer.fetchAllCharacters();\r\n\r\n    console.log(characters)\r\n    \r\n    characters.forEach(character => CharacterRenderer.renderPreview(character));\r\n}\n\n//# sourceURL=webpack://rick-and-morty-api-consumer/./src/index.js?");
 
 /***/ }),
 
@@ -46,7 +46,7 @@ eval("const fetch = __webpack_require__(/*! node-fetch */ \"./node_modules/node-
   \*****************************/
 /***/ ((module) => {
 
-eval("class Character{\r\n\r\n    constructor({name, status, gender, location, episodes} = {}){\r\n        this._name = name;\r\n        this._status = status;\r\n        this._gender = gender;\r\n        this._location = location;\r\n        this._episodes = episodes;        \r\n    }\r\n\r\n    get name(){\r\n        return this._name;\r\n    }\r\n    get status(){\r\n        return this._status;\r\n    }\r\n    get gender(){\r\n        return this._gender;\r\n    }\r\n    get location(){\r\n        return this._location;\r\n    }\r\n    get episodes(){\r\n        return this._episodes;\r\n    }\r\n    \r\n}\r\n\r\nmodule.exports = Character;\n\n//# sourceURL=webpack://rick-and-morty-api-consumer/./src/js/character.js?");
+eval("class Character{\r\n\r\n    constructor({name, status, gender, location, episodes, avatarUrl, species} = {}){\r\n        this._name = name;\r\n        this._status = status;\r\n        this._gender = gender;\r\n        this._location = location;\r\n        this._episodes = episodes;\r\n        this._avatarUrl = avatarUrl;\r\n        this._species = species;\r\n    }\r\n\r\n    get name(){\r\n        return this._name;\r\n    }\r\n    get status(){\r\n        return this._status;\r\n    }\r\n    get gender(){\r\n        return this._gender;\r\n    }\r\n    get location(){\r\n        return this._location;\r\n    }\r\n    get episodes(){\r\n        return this._episodes;\r\n    }\r\n    get avatarUrl(){\r\n        return this._avatarUrl;\r\n    }\r\n    get species(){\r\n        return this._species;\r\n    }\r\n    \r\n}\r\n\r\nmodule.exports = Character;\n\n//# sourceURL=webpack://rick-and-morty-api-consumer/./src/js/character.js?");
 
 /***/ }),
 
@@ -56,7 +56,7 @@ eval("class Character{\r\n\r\n    constructor({name, status, gender, location, e
   \********************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("const Character = __webpack_require__(/*! ./character.js */ \"./src/js/character.js\");\r\n\r\nconst characterMap = (characterEntity) => {\r\n    const {name, status, gender, location, episodes} = characterEntity\r\n    return new Character({name, status, gender, location, episodes});\r\n}\r\n\r\nmodule.exports = characterMap;\n\n//# sourceURL=webpack://rick-and-morty-api-consumer/./src/js/characterMap.js?");
+eval("const Character = __webpack_require__(/*! ./character.js */ \"./src/js/character.js\");\r\n\r\nconst characterMap = (characterEntity) => {\r\n    const {name, status, gender, location, episodes, image: avatarUrl, species} = characterEntity\r\n    return new Character({name, status, gender, location, episodes, avatarUrl, species});\r\n}\r\n\r\nmodule.exports = characterMap;\n\n//# sourceURL=webpack://rick-and-morty-api-consumer/./src/js/characterMap.js?");
 
 /***/ }),
 
@@ -66,7 +66,7 @@ eval("const Character = __webpack_require__(/*! ./character.js */ \"./src/js/cha
   \*************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("const Character = __webpack_require__(/*! ./character */ \"./src/js/character.js\");\r\n\r\nconst CharacterRenderer = (function(){\r\n\r\n    /**\r\n     * @param {Character} character \r\n     */\r\n    function renderPreview(character) {\r\n        const htmlString = (\r\n            `<div>\r\n                ${character.name}\r\n            </div>`\r\n        );\r\n\r\n        const characterElem = document.createElement(htmlString);\r\n\r\n        document.querySelector(\".grid\").append(characterElem);\r\n    }\r\n\r\n    /**\r\n     * @param {Character} character \r\n     */\r\n    function renderModal(character){\r\n        const htmlString = '';\r\n\r\n        document.querySelector(\"#modal\").innerHTML = htmlString;\r\n    }\r\n\r\n\r\n\r\n    return {renderPreview, renderModal};\r\n})();\r\n\r\nmodule.exports = CharacterRenderer;\n\n//# sourceURL=webpack://rick-and-morty-api-consumer/./src/js/characterRenderer.js?");
+eval("const Character = __webpack_require__(/*! ./character */ \"./src/js/character.js\");\r\n\r\nconst CharacterRenderer = (function(){\r\n\r\n    /**\r\n     * @param {Character} character \r\n     */\r\n    function renderPreview(character) {\r\n        const htmlString = (\r\n            `<div class=\"character-card\">\r\n                <img src=\"${character.avatarUrl}\" />\r\n                <div class=\"details\">\r\n                    <div class=\"title\">${character.name}</div>\r\n                    <div class=\"info\">\r\n                        <span class=\"status status-unknown\"></span>\r\n                        <span>${character.status} - ${character.species}</span>\r\n                    </div>\r\n                </div>                \r\n            </div>`\r\n        );\r\n\r\n        const characterElem = document.createElement(\"div\");\r\n        characterElem.innerHTML = htmlString;\r\n\r\n        document.querySelector(\".grid\").append(characterElem.firstChild);\r\n    }\r\n\r\n    /**\r\n     * @param {Character} character \r\n     */\r\n    function renderModal(character){\r\n        const htmlString = '';\r\n\r\n        document.querySelector(\"#modal\").innerHTML = htmlString;\r\n    }\r\n\r\n\r\n\r\n    return {renderPreview, renderModal};\r\n})();\r\n\r\nmodule.exports = CharacterRenderer;\n\n//# sourceURL=webpack://rick-and-morty-api-consumer/./src/js/characterRenderer.js?");
 
 /***/ })
 

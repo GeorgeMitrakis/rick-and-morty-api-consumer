@@ -1,3 +1,26 @@
 .character-card {
-  min-width: 230px;
-  background-color: white; }
+  width: 230px;
+  max-height: 100px;
+  background-color: white;
+  padding: 12px;
+  display: flex; }
+  .character-card img {
+    width: 60px;
+    height: 60px;
+    padding-right: 12px; }
+  .character-card .details .title {
+    font-weight: 700; }
+  .character-card .details .info {
+    font-weight: 400;
+    font-size: 12px; }
+  .character-card .details .status, .character-card .details .status-alive, .character-card .details .status-dead, .character-card .details .status-unknown {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block; }
+    .character-card .details .status-alive {
+      background-color: green; }
+    .character-card .details .status-dead {
+      background-color: red; }
+    .character-card .details .status-unknown {
+      background-color: grey; }

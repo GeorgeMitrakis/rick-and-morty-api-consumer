@@ -1,4 +1,48 @@
 .character-card{
-    min-width: 230px;
+    width: 230px;
+    max-height: 100px;
     background-color: white;
+    padding: 12px;
+    display: flex;
+
+    img{
+        width: 60px;
+        height: 60px;
+        padding-right: 12px;
+    }
+
+    .details{
+        .title{
+            font-weight: 700;
+        }
+    
+        .info{
+            font-weight: 400;
+            font-size: 12px;
+        }
+    
+        .status{
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+
+            &-alive{
+                @extend .status;
+                background-color: green;
+            }
+    
+            &-dead{
+                @extend .status;
+                background-color: red;
+            }
+    
+            &-unknown{
+                @extend .status;
+                background-color: grey;
+            }
+    
+        }
+    }
+
 }
