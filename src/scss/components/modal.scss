@@ -1,0 +1,22 @@
+#modal{
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(128, 128, 128, 0.5);
+    display: none;
+
+    &.opened{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content{
+        width: 200px;
+        height: 400px;
+        background-color: white;
+    }
+}

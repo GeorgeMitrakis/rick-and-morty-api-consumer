@@ -8,22 +8,45 @@
     width: 60px;
     height: 60px;
     padding-right: 12px; }
-  .character-card .details .title {
-    font-weight: 700; }
-  .character-card .details .info {
-    font-weight: 400;
-    font-size: 12px; }
-  .character-card .details .status, .character-card .details .status-alive, .character-card .details .status-dead, .character-card .details .status-unknown {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    display: inline-block; }
-    .character-card .details .status-alive {
-      background-color: green; }
-    .character-card .details .status-dead {
-      background-color: red; }
-    .character-card .details .status-unknown {
-      background-color: grey; }
+  .character-card .details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; }
+    .character-card .details .title {
+      font-weight: 700; }
+    .character-card .details .info {
+      font-weight: 400;
+      font-size: 12px;
+      margin-bottom: 10px; }
+    .character-card .details .status, .character-card .details .status-alive, .character-card .details .status-dead, .character-card .details .status-unknown {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block; }
+      .character-card .details .status-alive {
+        background-color: green; }
+      .character-card .details .status-dead {
+        background-color: red; }
+      .character-card .details .status-unknown {
+        background-color: grey; }
+
+#modal {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(128, 128, 128, 0.5);
+  display: none; }
+  #modal.opened {
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+  #modal .modal-content {
+    width: 200px;
+    height: 400px;
+    background-color: white; }
 
 html, body {
   width: 100%;
@@ -57,14 +80,17 @@ body {
       .page-wrapper .hero-content h1 {
         margin: 0; }
   .page-wrapper .characters-container {
-    height: calc(100% - var(--header-height));
+    min-height: calc(100% - var(--header-height));
     background-image: url("/images/characters-area-background.svg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
     background-color: #03B0C8; }
     .page-wrapper .characters-container .grid {
+      --n:5;
+      /* the max number of columns */
       display: grid;
       gap: 1rem;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      padding: 16px; }
+      grid-template-columns: repeat(auto-fit, minmax(calc(max(250px,100%/var(--n))), 1fr));
+      padding: 16px;
+      justify-items: center; }

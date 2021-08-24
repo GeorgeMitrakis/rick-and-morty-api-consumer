@@ -12,6 +12,10 @@
     }
 
     .details{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
         .title{
             font-weight: 700;
         }
@@ -19,6 +23,7 @@
         .info{
             font-weight: 400;
             font-size: 12px;
+            margin-bottom: 10px;
         }
     
         .status{

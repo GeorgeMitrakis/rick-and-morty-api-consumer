@@ -19,17 +19,23 @@ const CharacterRenderer = (function(){
             </div>`
         );
 
-        const characterElem = document.createElement("div");
+        let characterElem = document.createElement("div");
         characterElem.innerHTML = htmlString;
+        characterElem = characterElem.firstChild;
 
-        document.querySelector(".grid").append(characterElem.firstChild);
+        characterElem.onclick = function(event) {
+            renderModal(character);
+            document.querySelector("#modal").classList.add("opened");
+        }
+
+        document.querySelector(".grid").append(characterElem);
     }
 
     /**
      * @param {Character} character 
      */
     function renderModal(character){
-        const htmlString = '';
+        const htmlString = `<div class="modal-content">Hello!</div>`;
 
         document.querySelector("#modal").innerHTML = htmlString;
     }
