@@ -3,7 +3,9 @@
   max-height: 100px;
   background-color: white;
   padding: 12px;
-  display: flex; }
+  display: flex;
+  border-radius: 4px;
+  cursor: pointer; }
   .character-card img {
     width: 60px;
     height: 60px;
@@ -22,7 +24,8 @@
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      display: inline-block; }
+      display: inline-block;
+      margin-right: 3px; }
       .character-card .details .status-alive {
         background-color: green; }
       .character-card .details .status-dead {
@@ -47,6 +50,29 @@
     width: 200px;
     height: 400px;
     background-color: white; }
+
+.loader {
+  display: none;
+  border: 16px solid #f3f3f3;
+  /* Light grey */
+  border-top: 16px solid #3498db;
+  /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+  position: absolute;
+  top: calc(50% + 12px);
+  left: calc(50% - 60px); }
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(360deg); } }
+
+.pagination {
+  padding: 16px; }
 
 html, body {
   width: 100%;
@@ -94,3 +120,9 @@ body {
       grid-template-columns: repeat(auto-fit, minmax(calc(max(250px,100%/var(--n))), 1fr));
       padding: 16px;
       justify-items: center; }
+    .page-wrapper .characters-container.loading .loader {
+      display: block; }
+    .page-wrapper .characters-container.loading .grid {
+      display: none; }
+    .page-wrapper .characters-container.loading .pagination {
+      display: none; }

@@ -11,7 +11,7 @@
     "webpack": "webpack",
     "js-watch": "webpack --watch",
     "build": "webpack & node-sass src/scss/site/ -o dist/",
-    "dev": "concurrently --kill-others \"npm run sass-watch\" \"npm run js-watch\""
+    "watch": "concurrently --kill-others \"npm run sass-watch\" \"npm run js-watch\""
   },
   "keywords": [],
   "author": "",

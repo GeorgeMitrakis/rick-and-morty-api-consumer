@@ -4,6 +4,8 @@
     background-color: white;
     padding: 12px;
     display: flex;
+    border-radius: 4px;
+    cursor: pointer;
 
     img{
         width: 60px;
@@ -31,6 +33,7 @@
             height: 10px;
             border-radius: 50%;
             display: inline-block;
+            margin-right: 3px;
 
             &-alive{
                 @extend .status;

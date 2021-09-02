@@ -3,7 +3,9 @@
   max-height: 100px;
   background-color: white;
   padding: 12px;
-  display: flex; }
+  display: flex;
+  border-radius: 4px;
+  cursor: pointer; }
   .character-card img {
     width: 60px;
     height: 60px;
@@ -22,7 +24,8 @@
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      display: inline-block; }
+      display: inline-block;
+      margin-right: 3px; }
       .character-card .details .status-alive {
         background-color: green; }
       .character-card .details .status-dead {
