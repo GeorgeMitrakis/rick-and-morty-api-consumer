@@ -1,9 +1,20 @@
 
 const ApiConsumer = require("./js/apiConsumer");
-const CharacterRenderer = require("./js/characterRenderer");
+const Renderer = require("./js/renderer");
 
-window.onload = async function() {
-    CharacterRenderer.displayLoadingState();
+window.addEventListener('load', async function() {
+
+    document.addEventListener('click', function(event){
+        const characterClicked = getCharacterClicked(event.target);
+        
+        if(!characterClicked){
+            return;
+        }
+
+        console.log(characterClicked.getAttribute("data-character-id"))
+    });
+
+    Renderer.displayLoadingState({isLoading: true});
 
     document.querySelector(".js-previous").onclick = function(event) {
         console.log({event})
@@ -14,16 +25,31 @@ window.onload = async function() {
 
     const page = getQuerystringParams()["p"];
     const characters = await ApiConsumer.fetchAllCharacters({page});
-
-    // console.log(characters)
     
-    characters.forEach(character => CharacterRenderer.renderPreview(character));
-    CharacterRenderer.displayCharacters();
-}
+    Renderer.renderGrid(characters);
+    Renderer.displayLoadingState({isLoading: false});
+})
 
 function getQuerystringParams() {
     const urlSearchParams = new URLSearchParams(window.location.search) 
     const qsParams = Object.fromEntries(urlSearchParams.entries());
 
     return qsParams;
+}
+
+/**
+ * 
+ * @param {EventTarget} eventTarget 
+ * @returns {Element}
+ */
+function getCharacterClicked(eventTarget){
+    if(eventTarget.classList.contains("character-card")){
+        return eventTarget;
+    }
+
+    if(eventTarget.closest(".character-card") != null){
+        return eventTarget.closest(".character-card");
+    }
+
+    return null;
 }

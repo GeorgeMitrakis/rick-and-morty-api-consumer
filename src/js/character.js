@@ -1,6 +1,7 @@
 class Character{
 
-    constructor({name, status, gender, location, episodes, avatarUrl, species} = {}){
+    constructor({id, name, status, gender, location, episodes, avatarUrl, species} = {}){
+        this._id = id;
         this._name = name;
         this._status = status;
         this._gender = gender;
@@ -10,6 +11,9 @@ class Character{
         this._species = species;
     }
 
+    get id(){
+        return this._id;
+    }
     get name(){
         return this._name;
     }

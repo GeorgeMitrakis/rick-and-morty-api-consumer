@@ -1,27 +1,43 @@
 const Character = require("./character");
 const enums = require("./enums");
 
-const CharacterRenderer = (function(){
+const Renderer = (function(){
 
-
-    function displayLoadingState() {
+    /**
+     * @param {Object} options
+     * @param {boolean} options.isLoading 
+     */
+    function displayLoadingState({isLoading} = {isLoading: false}) {
         // document.querySelector('.grid').classList.add('is-loading');
         // document.querySelector('.loader').classList.add('active');
-        document.querySelector('section.characters-container').classList.add('loading');
+        document.querySelector('section.characters-container').classList.toggle('loading', isLoading);
     }
 
-    function displayCharacters() {
-        // document.querySelector('.grid').classList.remove('is-loading');
-        // document.querySelector('.loader').classList.remove('active');
-        document.querySelector('section.characters-container').classList.remove('loading');
+    /**
+     * 
+     * @param {Character[]} characters 
+     */
+    function renderGrid(characters) {
+        const characterElems = characters.map(character => getGridElem(character));
+        const gridHtml = characterElems.reduce(
+            (gridHtmlUntilNow, characterElem) => {
+                return (
+                    `${gridHtmlUntilNow}
+                    ${characterElem}`
+                );
+            }, ''
+        );
+        
+        document.querySelector(".grid").innerHTML = gridHtml;
     }
 
     /**
      * @param {Character} character 
+     * @returns {string} The HTML string of the grid element
      */
-    function renderPreview(character) {
+    function getGridElem(character) {
         const htmlString = (
-            `<div class="character-card">
+            `<div class="character-card" data-character-id="${character.id}">
                 <img src="${character.avatarUrl}" />
                 <div class="details">
                     <div class="title">${character.name}</div>
@@ -33,16 +49,7 @@ const CharacterRenderer = (function(){
             </div>`
         );
 
-        let characterElem = document.createElement("div");
-        characterElem.innerHTML = htmlString;
-        characterElem = characterElem.firstChild;
-
-        // characterElem.onclick = function(event) {
-        //     renderModal(character);
-        //     document.querySelector("#modal").classList.add("opened");
-        // }
-
-        document.querySelector(".grid").append(characterElem);
+        return htmlString;
     }
 
     function getStatusHtmlClass(status){
@@ -69,7 +76,12 @@ const CharacterRenderer = (function(){
      * @param {Character} character 
      */
     function renderModal(character){
-        const htmlString = `<div class="modal-content">Hello!</div>`;
+        const htmlString = (
+            `<div class="modal-content">
+                <span class="close">&times;</span>
+                <p>Some text in the Modal..</p>
+            </div>`
+        );
 
         document.querySelector("#modal").innerHTML = htmlString;
     }
@@ -78,10 +90,9 @@ const CharacterRenderer = (function(){
 
     return {
         displayLoadingState,
-        displayCharacters,
-        renderPreview,
+        renderGrid,
         renderModal
     };
 })();
 
-module.exports = CharacterRenderer;
+module.exports = Renderer;
