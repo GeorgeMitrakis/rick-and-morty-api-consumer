@@ -9,13 +9,15 @@ const ApiConsumer = (function(){
 
     /**
      * 
-     * @param {string} endpoint
+     * @param {Object} options
+     * @param {string} options.endpoint
+     * @param {boolean} options.singleCharacter
      * @returns {Promise<Character | Character[]>}
      */
-    const consume = (endpoint, callback = () => {}) => {
+    const consume = ({endpoint, singleCharacter} = {}, callback = () => {}) => {
         const response = fetch(URL + endpoint)
                             .then(res => res.json())
-                            .then(res => postProcessResponse(res))
+                            .then(res => postProcessResponse(res, singleCharacter))
                             .then(res => callback(res));
         return response;
     }
@@ -26,7 +28,7 @@ const ApiConsumer = (function(){
      * @returns {Promise<Character>}
      */
     const fetchCharacter = (id) => {
-        return consume("/character/" + id, (res) => characterMap(res));
+        return consume({endpoint: `/character/${id}`, singleCharacter:true}, (res) => characterMap(res));
     }
 
     /**
@@ -39,7 +41,7 @@ const ApiConsumer = (function(){
             consumeUrl += `?page=${page}`;
         }
 
-        const response = consume(consumeUrl, (res => {
+        const response = consume({endpoint: consumeUrl}, (res => {
             const characterEntities = res.results;
             const characters = characterEntities.map(characterEntity => characterMap(characterEntity));
             
@@ -49,12 +51,18 @@ const ApiConsumer = (function(){
         return response;
     }
 
-    function postProcessResponse(response){
+    function postProcessResponse(response, singleCharacter){
         try {
-            response.results.forEach(character => {
-                character.gender = formatGender(character.gender);
-                character.status = formatStatus(character.status);
-            });
+            if(singleCharacter){
+                response.gender = formatGender(response.gender);
+                response.status = formatStatus(response.status);
+            }
+            else{
+                response.results.forEach(character => {
+                    character.gender = formatGender(character.gender);
+                    character.status = formatStatus(character.status);
+                });
+            }
         } catch (error) {
             console.error(error);
         }

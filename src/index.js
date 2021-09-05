@@ -4,14 +4,16 @@ const Renderer = require("./js/renderer");
 
 window.addEventListener('load', async function() {
 
-    document.addEventListener('click', function(event){
-        const characterClicked = getCharacterClicked(event.target);
+    document.addEventListener('click', async function(event){
+        const characterClicked = getElemClickedByClass(event.target, "character-card");
         
         if(!characterClicked){
             return;
         }
 
-        console.log(characterClicked.getAttribute("data-character-id"))
+        const characterId = characterClicked.getAttribute("data-character-id");
+
+        console.log(await ApiConsumer.fetchCharacter(characterId));
     });
 
     Renderer.displayLoadingState({isLoading: true});
@@ -42,13 +44,13 @@ function getQuerystringParams() {
  * @param {EventTarget} eventTarget 
  * @returns {Element}
  */
-function getCharacterClicked(eventTarget){
-    if(eventTarget.classList.contains("character-card")){
+function getElemClickedByClass(eventTarget, classSelector){
+    if(eventTarget.classList.contains(classSelector)){
         return eventTarget;
     }
 
-    if(eventTarget.closest(".character-card") != null){
-        return eventTarget.closest(".character-card");
+    if(eventTarget.closest(`.${classSelector}`) != null){
+        return eventTarget.closest(`.${classSelector}`);
     }
 
     return null;
