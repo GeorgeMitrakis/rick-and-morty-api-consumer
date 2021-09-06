@@ -7,10 +7,24 @@ const Renderer = (function(){
      * @param {Object} options
      * @param {boolean} options.isLoading 
      */
-    function displayLoadingState({isLoading} = {isLoading: false}) {
-        // document.querySelector('.grid').classList.add('is-loading');
-        // document.querySelector('.loader').classList.add('active');
+    function displayGridLoadingState({isLoading} = {isLoading: false}) {
         document.querySelector('section.characters-container').classList.toggle('loading', isLoading);
+    }
+
+    /**
+     * @param {Object} options
+     * @param {boolean} options.isLoading 
+     */
+    function displayModalLoadingState({isLoading} = {isLoading: false}) {
+        console.log({isLoading});
+    }
+
+    function openModal() {
+        document.querySelector('#modal').classList.add('opened');
+    }
+
+    function closeModal() {
+        document.querySelector('#modal').classList.remove('opened');
     }
 
     /**
@@ -77,21 +91,45 @@ const Renderer = (function(){
      */
     function renderModal(character){
         const htmlString = (
-            `<div class="modal-content">
-                <span class="close">&times;</span>
-                <p>Some text in the Modal..</p>
+            `<div class="character">
+                <img src="${character.avatarUrl}" />
+                <h3>${character.name}</h3>
+                <p>
+                    <span class="status ${getStatusHtmlClass(character.status)}"></span>
+                    <span>${character.status} - ${character.species}</span>
+                </p>
+
+            </div>
+            <div class="character-info">
+                <p>Gender: <span class="${getGenderHtmlClass(character.gender)}"></span> ${character.gender}</p>
+                <p>Last seen location: ${character.location}</p>
+                <p>Number of episodes appeared: ${character.episodes.length}</p>
             </div>`
         );
 
-        document.querySelector("#modal").innerHTML = htmlString;
+        document.querySelector("#modal .modal-content").innerHTML = htmlString;
+    }
+
+    function getGenderHtmlClass(gender) {
+        switch (gender) {
+            case enums.character.gender.MALE:
+                return 'icon-male';
+            case enums.character.gender.FEMALE:
+                return 'icon-female';
+            default:
+                return '';
+        }
     }
 
 
 
     return {
-        displayLoadingState,
+        displayGridLoadingState,
+        displayModalLoadingState,
         renderGrid,
-        renderModal
+        renderModal,
+        openModal,
+        closeModal
     };
 })();
 

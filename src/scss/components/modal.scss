@@ -11,14 +11,16 @@
 
     &.opened{
         display: flex;
-        justify-content: center;
         align-items: center;
+        justify-content: center;
+        flex-direction: column;
     }
 
-    .modal-content{
-        width: 200px;
-        height: 400px;
+    .modal-inner{
+        min-width: 300px;
+        max-width: 450px;
         background-color: white;
+        position: relative;
     }
 
     .close {
@@ -26,6 +28,53 @@
         float: right;
         font-size: 28px;
         font-weight: bold;
+        cursor: pointer;
+        position: absolute;
+        width: 28px;
+        top: 0;
+        right: 0;
+        text-align: center;
+    }
 
+    .modal-content {
+        text-align: center;
+        
+        .character{
+            padding: 16px 16px 8px;
+    
+            img {
+                width: 143px;
+                height: 143px;
+            }
+        }
+
+        .character-info{
+            padding: 8px 16px 16px;
+            background: #03B0C8;
+            color: #fff;
+
+            span.icon{
+                background-color: #fff;
+                display: inline-block;
+                background-repeat: no-repeat;
+                background-position: center;
+                width: 24px;
+                height: 24px;
+
+                &-male{
+                    @extend span.icon;
+                    background-image: url("/images/mars-solid.svg");
+                }
+                
+                &-female{
+                    @extend span.icon;
+                    background-image: url("/images/venus-solid.svg");
+                }
+            }
+
+            p:last-child{
+                margin-bottom: 0;
+            }
+        }
     }
 }

@@ -11,12 +11,21 @@ window.addEventListener('load', async function() {
             return;
         }
 
-        const characterId = characterClicked.getAttribute("data-character-id");
+        Renderer.openModal();
+        Renderer.displayModalLoadingState({isLoading:true});
 
-        console.log(await ApiConsumer.fetchCharacter(characterId));
+        const characterId = characterClicked.getAttribute("data-character-id");
+        const character = await ApiConsumer.fetchCharacter(characterId);
+
+        Renderer.renderModal(character);
+        Renderer.displayModalLoadingState({isLoading:false});
     });
 
-    Renderer.displayLoadingState({isLoading: true});
+    document.querySelector("#modal span.close").addEventListener('click', function(event) {
+        Renderer.closeModal();
+    });
+
+    Renderer.displayGridLoadingState({isLoading: true});
 
     document.querySelector(".js-previous").onclick = function(event) {
         console.log({event})
@@ -29,7 +38,7 @@ window.addEventListener('load', async function() {
     const characters = await ApiConsumer.fetchAllCharacters({page});
     
     Renderer.renderGrid(characters);
-    Renderer.displayLoadingState({isLoading: false});
+    Renderer.displayGridLoadingState({isLoading: false});
 })
 
 function getQuerystringParams() {
