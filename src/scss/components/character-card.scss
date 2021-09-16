@@ -27,30 +27,6 @@
             font-size: 12px;
             margin-bottom: 10px;
         }
-    
-        .status{
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 3px;
-
-            &-alive{
-                @extend .status;
-                background-color: green;
-            }
-    
-            &-dead{
-                @extend .status;
-                background-color: red;
-            }
-    
-            &-unknown{
-                @extend .status;
-                background-color: grey;
-            }
-    
-        }
     }
 
 }

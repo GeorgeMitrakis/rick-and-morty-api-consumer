@@ -1,5 +1,6 @@
 const Character = require("./character");
 const enums = require("./enums");
+const { getQuerystringParams } = require("./utils");
 
 const Renderer = (function(){
 
@@ -11,20 +12,13 @@ const Renderer = (function(){
         document.querySelector('section.characters-container').classList.toggle('loading', isLoading);
     }
 
-    /**
-     * @param {Object} options
-     * @param {boolean} options.isLoading 
-     */
-    function displayModalLoadingState({isLoading} = {isLoading: false}) {
-        console.log({isLoading});
-    }
-
     function openModal() {
         document.querySelector('#modal').classList.add('opened');
     }
 
     function closeModal() {
         document.querySelector('#modal').classList.remove('opened');
+        document.querySelector("#modal .modal-content").innerHTML = "";
     }
 
     /**
@@ -87,10 +81,13 @@ const Renderer = (function(){
     }
 
     /**
-     * @param {Character} character 
+     * @param {Object} options
+     * @param {Character} options.character 
+     * @param {boolean} options.isLoading 
      */
-    function renderModal(character){
-        const htmlString = (
+    function renderModal({character, isLoading} = {isLoading:false}){
+        const htmlString = isLoading ? 
+            "<p>Loading...</p>" : (
             `<div class="character">
                 <img src="${character.avatarUrl}" />
                 <h3>${character.name}</h3>
@@ -121,15 +118,30 @@ const Renderer = (function(){
         }
     }
 
+    function preparePaginationButtons({prev, next}){
+        console.log({prev, next})
+        document.querySelectorAll(".js-previous").forEach(item => item.disabled = !prev);
+        if(prev){
+            const page = getQuerystringParams(prev.split("?")[1])["page"];
+            document.querySelectorAll(".js-previous").forEach(item => item.setAttribute("data-target-page", page));
+        }
+        
+        document.querySelectorAll(".js-next").forEach(item => item.disabled = !next);
+        if(next){
+            const page = getQuerystringParams(next.split("?")[1])["page"];
+            document.querySelectorAll(".js-next").forEach(item => item.setAttribute("data-target-page", page));
+        }        
+    }
+
 
 
     return {
         displayGridLoadingState,
-        displayModalLoadingState,
         renderGrid,
         renderModal,
         openModal,
-        closeModal
+        closeModal,
+        preparePaginationButtons,
     };
 })();
 

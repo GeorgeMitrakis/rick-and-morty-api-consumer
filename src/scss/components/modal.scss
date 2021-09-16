@@ -49,17 +49,18 @@
         }
 
         .character-info{
-            padding: 8px 16px 16px;
+            padding: 16px;
             background: #03B0C8;
             color: #fff;
 
             span.icon{
-                background-color: #fff;
+                // background-color: #fff;
                 display: inline-block;
                 background-repeat: no-repeat;
                 background-position: center;
-                width: 24px;
-                height: 24px;
+                width: 20px;
+                height: 20px;
+                margin: 0 5px;
 
                 &-male{
                     @extend span.icon;
@@ -72,8 +73,18 @@
                 }
             }
 
-            p:last-child{
-                margin-bottom: 0;
+            p {
+                display: flex;
+                justify-content: center;
+                margin: 0;
+
+                &+p {
+                    margin-top: 16px;
+                }
+
+                &:last-child{
+                    margin-bottom: 0;
+                }
             }
         }
     }

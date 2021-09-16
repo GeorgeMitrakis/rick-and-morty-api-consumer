@@ -35,7 +35,7 @@ const ApiConsumer = (function(){
      * 
      * @returns {Promise<Character[]>}
      */
-    const fetchAllCharacters = ({page} = {}) => {
+    const fetchCharactersPage = ({page} = {}) => {
         let consumeUrl = "/character";
         if(Number(page) && page > 1 && page <= 34){
             consumeUrl += `?page=${page}`;
@@ -45,7 +45,7 @@ const ApiConsumer = (function(){
             const characterEntities = res.results;
             const characters = characterEntities.map(characterEntity => characterMap(characterEntity));
             
-            return characters;
+            return {pageInfo: res.info, characters};
         }));
 
         return response;
@@ -97,7 +97,7 @@ const ApiConsumer = (function(){
     return {
         consume,
         fetchCharacter,
-        fetchAllCharacters
+        fetchCharactersPage
     }
     
 })();
