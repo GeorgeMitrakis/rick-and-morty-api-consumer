@@ -18,13 +18,11 @@ const Renderer = (function(){
     }
 
     function openModal() {
-        console.log("openModal()")
         document.querySelector('#modal').classList.add('opened');
         this.openModalCallback();
     }
 
     function closeModal() {
-        console.log("closeModal()")
         document.querySelector('#modal').classList.remove('opened');
         document.querySelector("#modal .modal-content").innerHTML = "";
         this.closeModalCallback();
@@ -34,18 +32,32 @@ const Renderer = (function(){
      * 
      * @param {Character[]} characters 
      */
-    function renderGrid(characters) {
-        const characterElems = characters.map(character => getGridElem(character));
-        const gridHtml = characterElems.reduce(
-            (gridHtmlUntilNow, characterElem) => {
-                return (
-                    `${gridHtmlUntilNow}
-                    ${characterElem}`
-                );
-            }, ''
-        );
-        
-        document.querySelector(".characters-grid").innerHTML = gridHtml;
+    function renderGrid({characters, error}) {
+        if(!error && !characters){
+            throw new Error("Renderer.renderGrid() : called with invalid argument");
+        }
+
+        if(error){
+            document.querySelector(".characters-grid").classList.add("error");
+            document.querySelector(".characters-grid").innerHTML = (
+                `<p>There was an error while fetching the characters.</p>
+                <p>Please try again later.</p>`
+            )
+        }
+        else {
+            const characterElems = characters.map(character => getGridElem(character));
+            const gridHtml = characterElems.reduce(
+                (gridHtmlUntilNow, characterElem) => {
+                    return (
+                        `${gridHtmlUntilNow}
+                        ${characterElem}`
+                    );
+                }, ''
+            );
+            
+            document.querySelector(".characters-grid").classList.remove("error");
+            document.querySelector(".characters-grid").innerHTML = gridHtml;
+        }
     }
 
     /**
@@ -90,28 +102,63 @@ const Renderer = (function(){
     }
 
     /**
-     * @param {Object} options
-     * @param {Character} options.character 
-     * @param {boolean} options.isLoading 
+     * @param {'character' | 'loading' | 'info'} content
+     * @param {Character} character
      */
-    function renderModal({character, isLoading} = {isLoading:false}){
-        const htmlString = isLoading ? 
-            "<p>Loading...</p>" : (
-            `<div class="character">
-                <img src="${character.avatarUrl}" />
-                <h3>${character.name}</h3>
-                <p>
-                    <span class="status ${getStatusHtmlClass(character.status)}"></span>
-                    <span>${character.status} - ${character.species}</span>
-                </p>
+    function renderModal(content, character){
+        if(content === 'character' && !character){
+            throw new Error("Renderer.renderModal(): no character object provided.");
+        }
 
-            </div>
-            <div class="character-info">
-                <p>Gender: <span class="${getGenderHtmlClass(character.gender)}"></span> ${character.gender}</p>
-                <p>Last seen location: ${character.location}</p>
-                <p>Number of episodes appeared: ${character.episodes.length}</p>
-            </div>`
-        );
+        let htmlString;
+
+        switch (content) {
+            case 'character': 
+                htmlString = (
+                    `<div class="character">
+                        <img src="${character.avatarUrl}" />
+                        <h3>${character.name}</h3>
+                        <p>
+                            <span class="status ${getStatusHtmlClass(character.status)}"></span>
+                            <span>${character.status} - ${character.species}</span>
+                        </p>
+                    </div>
+                    <div class="character-info">
+                        <p>Gender: <span class="${getGenderHtmlClass(character.gender)}"></span> ${character.gender}</p>
+                        <p>Last seen location: ${character.location}</p>
+                        <p>Number of episodes appeared: ${character.episodes.length}</p>
+                    </div>`
+                );
+                break;
+            case 'info': 
+                htmlString = (
+                    `<div class="app-info">
+                        <h2>Rick and Morty API Consumer</h2>
+                        <hr/>
+                        <p>Repo link: <a href="https://github.com/GeorgeMitrakis/rick-and-morty-api-consumer">here</a></p>
+                        <p>App author: <a href="https://www.linkedin.com/in/george-mitrakis-867b74191/">George Mitrakis</a></p>
+                        <p>UX designer, requirements author: <a href="https://www.linkedin.com/in/epaminondas-fakopoulos-751a03207/">Nondas Fakopoulos</a></p>
+                        <hr/>
+                        <p>
+                            The following icons from 
+                            <a href="https://fontawesome.com/"> fontawesome.com </a>
+                            were used, under the 
+                            <a href="https://fontawesome.com/license">Creative Commons Attribution 4.0 International license </a>:
+                        </p>
+                        <ul>
+                            <li>mars-solid (path color changed)</li>
+                            <li>venus-solid (path color changed)</li>
+                            <li>info-circle-solid (path color changed)</li>
+                        </ul>
+
+                    </div>`
+                );
+                break;
+            case 'loading': 
+            default:
+                htmlString = "<p>Loading...</p>"               
+                break;
+        }
 
         document.querySelector("#modal .modal-content").innerHTML = htmlString;
     }
@@ -122,23 +169,24 @@ const Renderer = (function(){
                 return 'icon-male';
             case enums.character.gender.FEMALE:
                 return 'icon-female';
+            case enums.character.gender.GENDERLESS:
+            case enums.character.gender.UNKNOWN:
             default:
                 return '';
         }
     }
 
     function preparePaginationButtons({prev, next}){
-        document.querySelectorAll(".js-previous").forEach(item => item.disabled = !prev);
-        if(prev){
-            const page = getQuerystringParams(prev.split("?")[1])["page"];
-            document.querySelectorAll(".js-previous").forEach(item => item.setAttribute("data-target-page", page));
+        preparePaginationButtonType(".js-previous", prev);
+        preparePaginationButtonType(".js-next", next);       
+    }
+
+    function preparePaginationButtonType(buttonClass, targetPageUrl){
+        document.querySelectorAll(buttonClass).forEach(item => item.disabled = !targetPageUrl);
+        if(targetPageUrl){
+            const page = getQuerystringParams(targetPageUrl.split("?")[1])["page"];
+            document.querySelectorAll(buttonClass).forEach(item => item.setAttribute("data-target-page", page));
         }
-        
-        document.querySelectorAll(".js-next").forEach(item => item.disabled = !next);
-        if(next){
-            const page = getQuerystringParams(next.split("?")[1])["page"];
-            document.querySelectorAll(".js-next").forEach(item => item.setAttribute("data-target-page", page));
-        }        
     }
 
 

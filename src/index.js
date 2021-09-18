@@ -7,12 +7,14 @@ window.addEventListener('load', async function() {
 
     EventListenerHelper.init();
 
+    EventListenerHelper.addCharacterGridListeners();
+
     Renderer.displayGridLoadingState({isLoading: true});
     
     const page = getQuerystringParams()["page"];
     const {pageInfo, characters} = await ApiConsumer.fetchCharactersPage({page});
     
-    Renderer.renderGrid(characters);
+    Renderer.renderGrid({characters});
     
     Renderer.preparePaginationButtons(pageInfo)
     Renderer.displayGridLoadingState({isLoading: false});
@@ -27,12 +29,22 @@ const EventListenerHelper = (function() {
 
     const modalOpenedEvent = new Event("modalOpened");
     const modalClosedEvent = new Event("modalClosed");
+    const characterFetchErrorEvent = new Event("characterFetchError");
 
 
     function init() {
+        ApiConsumer.init({
+            onFetchErrorCallback: () => document.dispatchEvent(characterFetchErrorEvent)
+        });
         Renderer.init({
             openModalCallback: () => document.dispatchEvent(modalOpenedEvent), 
-            closeModalCallback:  () => document.dispatchEvent(modalClosedEvent)
+            closeModalCallback: () => document.dispatchEvent(modalClosedEvent)
+        });
+    }
+
+    function addCharacterGridListeners(params) {
+        document.addEventListener('characterFetchError', function(event){
+            Renderer.renderGrid({error: true});
         })
     }
 
@@ -42,21 +54,17 @@ const EventListenerHelper = (function() {
         document.addEventListener('click', async function(event){
             const characterClicked = getElemClickedByClass(event.target, "character-card");
             
-            console.log("on character click(?)")
-            
             if(!characterClicked){
                 return;
             }
             
-            console.log("on character click")
-            
-            Renderer.renderModal({isLoading:true});
+            Renderer.renderModal('loading');
             Renderer.openModal();
             
             const characterId = characterClicked.getAttribute("data-character-id");
             const character = await ApiConsumer.fetchCharacter(characterId);
             
-            Renderer.renderModal({character});
+            Renderer.renderModal('character', character);
         });
         
         // on close button click
@@ -64,35 +72,34 @@ const EventListenerHelper = (function() {
             Renderer.closeModal();
         });
         
+        
+        // on info button click
+        document.querySelector(".js-info-button").addEventListener('click', function(event) {
+            event.stopPropagation();
+            
+            Renderer.openModal();
+            Renderer.renderModal('info');
+        })
+        
+        // on modal open
+        document.addEventListener('modalOpened', function(event){
+            document.addEventListener("click", onModalBackdropClick);
+        });
+        
+        // on modal close
+        document.addEventListener('modalClosed', function(event){
+            document.removeEventListener("click", onModalBackdropClick);
+        });
+
         // on backdrop click callback
         const onModalBackdropClick = function(event) {
             const isModalOpened =  document.querySelector("#modal").classList.contains("opened") && document.querySelector("#modal .modal-content").hasChildNodes();
             const isModalClicked = getElemClickedByClass(event.target, "modal-inner");
-            console.log("onModalBackdropClick()", {isModalOpened, isModalClicked})
             
             if(isModalOpened && !isModalClicked){
                 Renderer.closeModal();
             }
         };
-
-        // on info button click
-        document.querySelector(".js-info-button").addEventListener('click', function(event) {
-            event.stopPropagation();
-            
-            console.log("on info button click")
-            Renderer.openModal();
-            Renderer.renderModal({isLoading:true});
-        })
-        
-        document.addEventListener('modalOpened', function(event){
-            console.log("modalOpened")
-            document.addEventListener("click", onModalBackdropClick);
-        });
-        
-        document.addEventListener('modalClosed', function(event){
-            console.log("modalClosed")
-            document.removeEventListener("click", onModalBackdropClick);
-        });
     }
     
 
@@ -112,6 +119,7 @@ const EventListenerHelper = (function() {
 
     return {
         init,
+        addCharacterGridListeners,
         addModalListeners,
         addPaginationListeners
     }

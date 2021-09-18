@@ -5,6 +5,10 @@ const enums = require('./enums.js');
 
 const ApiConsumer = (function(){
     const URL = 'https://rickandmortyapi.com/api';
+
+    function init({onFetchErrorCallback}) {
+        this.onFetchErrorCallback = onFetchErrorCallback;
+    }
     
 
     /**
@@ -18,7 +22,12 @@ const ApiConsumer = (function(){
         const response = fetch(URL + endpoint)
                             .then(res => res.json())
                             .then(res => postProcessResponse(res, singleCharacter))
-                            .then(res => callback(res));
+                            .then(res => callback(res))
+                            .catch(error => {
+                                console.error(error);
+                                this.onFetchErrorCallback();
+                                return error;
+                            });
         return response;
     }
 
@@ -76,6 +85,10 @@ const ApiConsumer = (function(){
                 return enums.character.gender.MALE;
             case 'female':
                 return enums.character.gender.FEMALE;
+            case 'genderless':
+                return enums.character.gender.GENDERLESS;
+            case 'unknown':
+                return enums.character.gender.UNKNOWN;
             default:
                 return '';
         }
@@ -95,6 +108,7 @@ const ApiConsumer = (function(){
     }
 
     return {
+        init,
         consume,
         fetchCharacter,
         fetchCharactersPage

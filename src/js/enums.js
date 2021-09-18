@@ -2,7 +2,9 @@ const enums = {
     character : {
         gender : {
             MALE: 'Male',
-            FEMALE: 'Female'
+            FEMALE: 'Female',
+            GENDERLESS: 'Genderless',
+            UNKNOWN: 'Unknown'
         },
         status : {
             ALIVE : 'Alive',
