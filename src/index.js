@@ -16,7 +16,7 @@ window.addEventListener('load', async function() {
     Renderer.displayGridLoadingState({isLoading: false});
     
     EventListenerHelper.addModalListeners();
-    EventListenerHelper.addPaginationListeners(pageInfo);
+    EventListenerHelper.addPaginationListeners();
 })
 
 

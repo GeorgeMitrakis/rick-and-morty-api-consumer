@@ -36,7 +36,7 @@ const Renderer = (function(){
             }, ''
         );
         
-        document.querySelector(".grid").innerHTML = gridHtml;
+        document.querySelector(".characters-grid").innerHTML = gridHtml;
     }
 
     /**

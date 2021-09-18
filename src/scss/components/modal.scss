@@ -21,6 +21,8 @@
         max-width: 450px;
         background-color: white;
         position: relative;
+        border-radius: 4px;
+        overflow: hidden;
     }
 
     .close {
@@ -45,6 +47,7 @@
             img {
                 width: 143px;
                 height: 143px;
+                border-radius: 4px;
             }
         }
 

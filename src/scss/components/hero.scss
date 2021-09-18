@@ -1,0 +1,31 @@
+.hero{
+    height: var(--header-height);
+    background-image: url("/images/pickle-rick.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 85%;
+    
+    &-logo{
+        width: 35px;
+        height: 42px;
+        padding: 15px;
+
+        &:hover {
+            box-shadow: inset 0 0 20px 1px var(--hover-color);
+            border-color: var(--hover-color);
+        }
+    }
+
+    &-content{
+        height: calc(80%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+
+        h1{
+            margin: 0;
+        }
+    }
+}
