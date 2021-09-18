@@ -124,7 +124,7 @@ const Renderer = (function(){
                         </p>
                     </div>
                     <div class="character-info">
-                        <p>Gender: <span class="${getGenderHtmlClass(character.gender)}"></span> ${character.gender}</p>
+                        <p>Gender: ${getGenderHtml(character.gender)} ${character.gender}</p>
                         <p>Last seen location: ${character.location}</p>
                         <p>Number of episodes appeared: ${character.episodes.length}</p>
                     </div>`
@@ -163,12 +163,12 @@ const Renderer = (function(){
         document.querySelector("#modal .modal-content").innerHTML = htmlString;
     }
 
-    function getGenderHtmlClass(gender) {
+    function getGenderHtml(gender) {
         switch (gender) {
             case enums.character.gender.MALE:
-                return 'icon-male';
+                return '<span class="icon-male"></span>';
             case enums.character.gender.FEMALE:
-                return 'icon-female';
+                return '<span class="icon-female"></span>';
             case enums.character.gender.GENDERLESS:
             case enums.character.gender.UNKNOWN:
             default:
