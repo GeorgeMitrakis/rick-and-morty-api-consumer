@@ -4,6 +4,11 @@ const { getQuerystringParams } = require("./utils");
 
 const Renderer = (function(){
 
+    function init({ openModalCallback, closeModalCallback}) {
+        this.openModalCallback = openModalCallback;
+        this.closeModalCallback = closeModalCallback;
+    }
+
     /**
      * @param {Object} options
      * @param {boolean} options.isLoading 
@@ -13,12 +18,16 @@ const Renderer = (function(){
     }
 
     function openModal() {
+        console.log("openModal()")
         document.querySelector('#modal').classList.add('opened');
+        this.openModalCallback();
     }
 
     function closeModal() {
+        console.log("closeModal()")
         document.querySelector('#modal').classList.remove('opened');
         document.querySelector("#modal .modal-content").innerHTML = "";
+        this.closeModalCallback();
     }
 
     /**
@@ -45,7 +54,7 @@ const Renderer = (function(){
      */
     function getGridElem(character) {
         const htmlString = (
-            `<div class="character-card" data-character-id="${character.id}">
+            `<div class="character-card js-character-card" data-character-id="${character.id}">
                 <img src="${character.avatarUrl}" />
                 <div class="details">
                     <div class="title">${character.name}</div>
@@ -119,7 +128,6 @@ const Renderer = (function(){
     }
 
     function preparePaginationButtons({prev, next}){
-        console.log({prev, next})
         document.querySelectorAll(".js-previous").forEach(item => item.disabled = !prev);
         if(prev){
             const page = getQuerystringParams(prev.split("?")[1])["page"];
@@ -136,6 +144,7 @@ const Renderer = (function(){
 
 
     return {
+        init,
         displayGridLoadingState,
         renderGrid,
         renderModal,

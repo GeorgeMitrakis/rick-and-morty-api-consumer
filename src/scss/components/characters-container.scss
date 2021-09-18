@@ -9,6 +9,8 @@
     flex-direction: column;
 
     .characters-grid{
+        max-width: 1500px;
+        margin: 0 auto;
         padding: 32px 16px;
 
         // --n:5; /* the max number of columns */
@@ -19,7 +21,6 @@
         // justify-items: center;
         
         display: flex;
-        max-width: 100%;
         flex-wrap: wrap;
         justify-content: center;
         gap: 1rem;

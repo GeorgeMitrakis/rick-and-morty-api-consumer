@@ -5,6 +5,8 @@ const { getQuerystringParams, getElemClickedByClass } = require("./js/utils");
 
 window.addEventListener('load', async function() {
 
+    EventListenerHelper.init();
+
     Renderer.displayGridLoadingState({isLoading: true});
     
     const page = getQuerystringParams()["page"];
@@ -23,44 +25,76 @@ window.addEventListener('load', async function() {
 
 const EventListenerHelper = (function() {
 
-    function addModalListeners() {
+    const modalOpenedEvent = new Event("modalOpened");
+    const modalClosedEvent = new Event("modalClosed");
 
+
+    function init() {
+        Renderer.init({
+            openModalCallback: () => document.dispatchEvent(modalOpenedEvent), 
+            closeModalCallback:  () => document.dispatchEvent(modalClosedEvent)
+        })
+    }
+
+    function addModalListeners() {
+        
         // on character click
         document.addEventListener('click', async function(event){
             const characterClicked = getElemClickedByClass(event.target, "character-card");
             
+            console.log("on character click(?)")
+            
             if(!characterClicked){
                 return;
             }
-    
-            Renderer.openModal();
+            
+            console.log("on character click")
+            
             Renderer.renderModal({isLoading:true});
-    
+            Renderer.openModal();
+            
             const characterId = characterClicked.getAttribute("data-character-id");
             const character = await ApiConsumer.fetchCharacter(characterId);
-    
+            
             Renderer.renderModal({character});
-            document.addEventListener("click", onModalBackdropClick);
         });
-
+        
         // on close button click
         document.querySelector("#modal span.close").addEventListener('click', function(event) {
             Renderer.closeModal();
-            document.removeEventListener("click", onModalBackdropClick);
         });
-
+        
         // on backdrop click callback
         const onModalBackdropClick = function(event) {
             const isModalOpened =  document.querySelector("#modal").classList.contains("opened") && document.querySelector("#modal .modal-content").hasChildNodes();
             const isModalClicked = getElemClickedByClass(event.target, "modal-inner");
-            console.log(event, {isModalOpened, isModalClicked})
-                
+            console.log("onModalBackdropClick()", {isModalOpened, isModalClicked})
+            
             if(isModalOpened && !isModalClicked){
                 Renderer.closeModal();
-                document.removeEventListener("click", onModalBackdropClick);
             }
         };
+
+        // on info button click
+        document.querySelector(".js-info-button").addEventListener('click', function(event) {
+            event.stopPropagation();
+            
+            console.log("on info button click")
+            Renderer.openModal();
+            Renderer.renderModal({isLoading:true});
+        })
+        
+        document.addEventListener('modalOpened', function(event){
+            console.log("modalOpened")
+            document.addEventListener("click", onModalBackdropClick);
+        });
+        
+        document.addEventListener('modalClosed', function(event){
+            console.log("modalClosed")
+            document.removeEventListener("click", onModalBackdropClick);
+        });
     }
+    
 
     function addPaginationListeners() {
 
@@ -77,6 +111,7 @@ const EventListenerHelper = (function() {
     }
 
     return {
+        init,
         addModalListeners,
         addPaginationListeners
     }
