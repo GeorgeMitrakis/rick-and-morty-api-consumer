@@ -9,15 +9,15 @@
       "patterns" : ["src/scss/site/*", "src/scss/components/*"],
       "extensions" : "scss"
     },
-    "webpack" : "src/js/*.js"
+    "js-bundle" : "src/js/*.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "html-publish": "copyfiles -u 1 src/index.html public",
     "sass": "node-sass src/scss/site/ -o public/css",
-    "webpack": "webpack",
-    "build": "npm run html-publish & webpack & node-sass src/scss/site/ -o public/css",
+    "js-bundle": "webpack",
+    "build": "npm run html-publish & npm run js-bundle & npm run sass",
     "watch": "npm-watch"
   },
   "keywords": [],
