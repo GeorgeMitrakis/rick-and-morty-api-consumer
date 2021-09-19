@@ -1,0 +1,232 @@
+.hero {
+  height: var(--header-height);
+  background-image: url("/images/pickle-rick.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 85%;
+  position: relative; }
+  .hero-logo {
+    width: 35px;
+    height: 42px;
+    padding: 15px; }
+    .hero-logo:hover {
+      box-shadow: inset 0 0 20px 1px var(--hover-color);
+      border-color: var(--hover-color); }
+  .hero-info {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top: 20px;
+    right: 20px; }
+  .hero-content {
+    height: calc(80%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center; }
+    .hero-content h1 {
+      margin: 0; }
+
+.characters-container {
+  min-height: calc(100% - var(--header-height));
+  background-image: url("/images/characters-area-background.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-color: #03B0C8;
+  display: flex;
+  flex-direction: column; }
+  .characters-container .characters-grid {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 32px 16px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem; }
+    .characters-container .characters-grid.error {
+      flex-direction: column;
+      gap: 0; }
+  .characters-container.loading .loader {
+    display: block; }
+  .characters-container.loading .grid {
+    display: none; }
+  .characters-container.loading .pagination {
+    display: none; }
+
+.character-card {
+  min-width: 230px;
+  max-width: 230px;
+  max-height: 120px;
+  background-color: white;
+  padding: 12px;
+  display: flex;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid white; }
+  .character-card:hover {
+    box-shadow: 0 0 5px 1px var(--hover-color);
+    border-color: var(--hover-color); }
+  .character-card img {
+    width: 60px;
+    height: 60px;
+    margin-right: 12px;
+    border-radius: 4px; }
+  .character-card .details {
+    display: flex;
+    flex-direction: column; }
+    .character-card .details .title {
+      font-weight: 700; }
+    .character-card .details .info {
+      font-weight: 400;
+      font-size: 12px;
+      margin-top: 5px; }
+
+.status, .status-alive, .status-dead, .status-unknown {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 3px; }
+  .status-alive {
+    background-color: green; }
+  .status-dead {
+    background-color: red; }
+  .status-unknown {
+    background-color: grey; }
+
+#modal {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  /* Fallback color */
+  background-color: rgba(128, 128, 128, 0.5);
+  display: none; }
+  #modal.opened {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column; }
+  #modal .modal-inner {
+    min-width: 300px;
+    max-width: 500px;
+    background-color: white;
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden; }
+  #modal .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    width: 28px;
+    top: 0;
+    right: 0;
+    text-align: center; }
+  #modal .modal-content {
+    text-align: center; }
+    #modal .modal-content .character {
+      padding: 16px 16px 8px; }
+      #modal .modal-content .character img {
+        width: 143px;
+        height: 143px;
+        border-radius: 4px; }
+    #modal .modal-content .character-info {
+      padding: 16px;
+      background: #03B0C8;
+      color: #fff; }
+      #modal .modal-content .character-info span.icon, #modal .modal-content .character-info span.icon-male, #modal .modal-content .character-info span.icon-female {
+        display: inline-block;
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 20px;
+        height: 20px;
+        margin: 0 5px; }
+        #modal .modal-content .character-info span.icon-male {
+          background-image: url("/images/mars-solid.svg"); }
+        #modal .modal-content .character-info span.icon-female {
+          background-image: url("/images/venus-solid.svg"); }
+      #modal .modal-content .character-info p {
+        display: flex;
+        justify-content: center;
+        margin: 0; }
+        #modal .modal-content .character-info p + p {
+          margin-top: 16px; }
+        #modal .modal-content .character-info p:last-child {
+          margin-bottom: 0; }
+    #modal .modal-content .app-info {
+      text-align: left;
+      margin: 0 16px; }
+      #modal .modal-content .app-info ul {
+        list-style-type: circle; }
+        #modal .modal-content .app-info ul li {
+          margin: 2px 0; }
+
+.loader {
+  display: none;
+  border: 16px solid #f3f3f3;
+  /* Light grey */
+  border-top: 16px solid #3498db;
+  /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+  position: absolute;
+  top: calc(50% + 12px);
+  left: calc(50% - 60px); }
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(360deg); } }
+
+.pagination {
+  padding: 32px 16px 16px;
+  text-align: center; }
+  @media only screen and (min-width: 768px) {
+    .pagination {
+      display: none; } }
+  .pagination ~ .pagination {
+    display: block;
+    margin-top: auto;
+    padding: 16px 16px 32px; }
+  .pagination button {
+    padding: 1px;
+    border-radius: 4px;
+    border-color: #fff; }
+    .pagination button:not([disabled]) {
+      cursor: pointer; }
+      .pagination button:not([disabled]):hover {
+        box-shadow: 0 0 5px 1px var(--hover-color);
+        border-color: var(--hover-color); }
+    .pagination button[disabled] {
+      cursor: not-allowed; }
+    .pagination button img {
+      width: 24px;
+      height: 24px;
+      vertical-align: middle;
+      background: transparent;
+      box-sizing: border-box; }
+
+html, body {
+  width: 100%;
+  height: 100%; }
+
+body {
+  --header-height: 35vh;
+  --hover-color: lime;
+  font-family: 'Roboto', sans-serif;
+  margin: 0; }
+
+.page-wrapper {
+  width: 100%;
+  height: 100%; }
