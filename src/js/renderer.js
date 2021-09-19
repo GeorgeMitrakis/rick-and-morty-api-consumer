@@ -135,6 +135,7 @@ const Renderer = (function(){
                     `<div class="app-info">
                         <h2>Rick and Morty API Consumer</h2>
                         <hr/>
+                        <p>A web app that consumes the <a href="https://rickandmortyapi.com/">Rick and Morty API</a> and renders characters with their information.</p>
                         <p>Repo link: <a href="https://github.com/GeorgeMitrakis/rick-and-morty-api-consumer">here</a></p>
                         <p>App author: <a href="https://www.linkedin.com/in/george-mitrakis-867b74191/">George Mitrakis</a></p>
                         <p>UX designer, requirements author: <a href="https://www.linkedin.com/in/epaminondas-fakopoulos-751a03207/">Nondas Fakopoulos</a></p>
