@@ -67,7 +67,7 @@ const Renderer = (function(){
     function getGridElem(character) {
         const htmlString = (
             `<div class="character-card js-character-card" data-character-id="${character.id}">
-                <img src="${character.avatarUrl}" />
+                <img src="${character.avatarUrl}" alt="${character.name}" />
                 <div class="details">
                     <div class="title">${character.name}</div>
                     <div class="info">
@@ -116,7 +116,7 @@ const Renderer = (function(){
             case 'character': 
                 htmlString = (
                     `<div class="character">
-                        <img src="${character.avatarUrl}" />
+                        <img src="${character.avatarUrl}" alt="${character.name}"/>
                         <h3>${character.name}</h3>
                         <p>
                             <span class="status ${getStatusHtmlClass(character.status)}"></span>
