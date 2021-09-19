@@ -1,7 +1,7 @@
 
-const ApiConsumer = require("./js/apiConsumer");
-const Renderer = require("./js/renderer");
-const { getQuerystringParams, getElemClickedByClass } = require("./js/utils");
+const ApiConsumer = require("./apiConsumer");
+const Renderer = require("./renderer");
+const { getQuerystringParams, getElemClickedByClass } = require("./utils");
 
 window.addEventListener('load', async function() {
 

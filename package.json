@@ -5,7 +5,7 @@
   "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
+    "start": "node index.js",
     "sass": "node-sass src/scss/site/ -o dist/css",
     "sass-watch": "node-sass -w src/scss/site/ -o dist/css",
     "webpack": "webpack",
