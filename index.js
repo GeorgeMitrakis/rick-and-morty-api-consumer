@@ -4,10 +4,7 @@ const app = express();
 
 const PORT = 3000;
 
-const isProduction = true;
-const ROOT = isProduction ? "public" : "src";
-
-app.use("/", express.static(path.join(__dirname, ROOT)));
+app.use("/", express.static(path.join(__dirname, "public")));
 app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.listen(PORT, () => {
@@ -15,5 +12,5 @@ app.listen(PORT, () => {
 });
 
 app.get("/", (req, res) => {
-    res.sendFile(path.resolve(__dirname, `${ROOT}/index.html`));
+    res.sendFile(path.resolve(__dirname, "public/index.html"));
 });
