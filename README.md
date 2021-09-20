@@ -6,7 +6,7 @@ Written in html, vanilla js and sass. Serving with [expressjs](https://expressjs
 This coding task is designed by [Nondas Fakopoulos](https://www.linkedin.com/in/epaminondas-fakopoulos-751a03207/).
 
 ### Live demo:
-https://www.youtube.com/watch?v=dQw4w9WgXcQ
+https://us-central1-rick-and-morty-api-consumer.cloudfunctions.net/app
 
 ### npm scripts:
 `> npm install` -> download dependencies
